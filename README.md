@@ -74,9 +74,9 @@ Constructs the GLM design matrix from raw behavioural and movement data.
 |---|---|---|---|
 | `position_only` | Spatial | 10 | Position place fields, proximal zone only (0–350 cm). Restricted to avoid collinearity with `choice_spatial` in the distal maze. |
 | `audio_context` | Spatial | 10 | Position fields active on all audio & congruent trials (sum coding) |
-| `audio_stim` | Spatial | 10 | Contrast-coded position fields: +left tone, −right tone |
+| `audio_stim` | Spatial | 10 | Contrast-coded position fields: left speaker, right speaker |
 | `visual_context` | Spatial | 10 | Position fields active on all visual & congruent trials (sum coding) |
-| `visual_stim` | Spatial | 10 | Contrast-coded position fields: +0°, −90° |
+| `visual_stim` | Spatial | 10 | Contrast-coded position fields: 0°, 90° |
 | `velocity` | Spatial | 20 | Velocity × position (4 directions × 5 bases) |
 | `choice_spatial` | Spatial | 60 | Distal place fields split by L/R choice (30 bases × 2) |
 | `turn_onset` | Temporal | 8 | Turn-aligned temporal bases (4 forward × L/R) |
