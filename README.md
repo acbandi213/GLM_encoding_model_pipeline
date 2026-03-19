@@ -339,10 +339,3 @@ Install with:
 ```bash
 pip install numpy scipy pandas matplotlib seaborn tensorflow scikit-learn
 ```
-
----
-
-## Citation
-
-If you use this code, please cite:
-> [Your paper reference here]
