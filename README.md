@@ -66,7 +66,7 @@ Core `GLM` class implementing regularised GLM fitting via gradient descent (Tens
 Constructs the GLM design matrix from raw behavioural and movement data.
 
 **Basis functions:**
-- `create_cosine_bumps(x, centers, widths)` — raised cosine basis (Harvey Lab convention): overlapping bumps that tile a 1D variable (position or time)
+- `create_cosine_bumps(x, centers, widths)` — raised cosine basis: overlapping bumps that tile a 1D variable (position or time)
 
 **`GLMPredictorBuilder` class** builds nine predictor groups:
 
