@@ -172,7 +172,7 @@ Each simulated neuron has non-zero weights in **exactly one** predictor group, p
 |---|---|---|
 | N01 | `position_only` | Gaussian place field at y ≈ 175 cm, all trial types |
 | N02 | `audio_context` | Spatial bump active on all audio + congruent trials |
-| N03 | `audio_stim` | Contrast-coded: selective for left tone (Audio_Stim = 0°) |
+| N03 | `audio_stim` | Contrast-coded: selective for left tone (Audio_Stim = -90°) |
 | N04 | `audio_stim` | Contrast-coded: selective for right tone (Audio_Stim = 90°) |
 | N05 | `visual_context` | Spatial bump active on all visual + congruent trials |
 | N06 | `visual_stim` | Contrast-coded: selective for 0° grating |
