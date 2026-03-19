@@ -82,7 +82,7 @@ Constructs the GLM design matrix from raw behavioural and movement data.
 | `turn_onset` | Temporal | 8 | Turn-aligned temporal bases (4 forward × L/R) |
 | `outcome` | Temporal | 12 | Reward/ITI-aligned temporal bases (6 × correct/error) |
 
-Total: **150 predictors** (with velocity) or **130** (without).
+Total: **150 predictors** 
 
 Congruent trials (context 0) activate both `audio_context` and `visual_context` simultaneously, allowing the model to separate shared context signals from context-specific tuning.
 
