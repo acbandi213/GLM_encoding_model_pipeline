@@ -109,7 +109,7 @@ Orchestrates the full per-session pipeline. Functions are designed to be called 
 |---|---|---|
 | `BASE_DATA_PATH` | `/Volumes/Akhil Data/...` | Root data directory |
 | `Y_SCALE` | `10` | Multiplier applied to raw deconvolved traces |
-| `Y_SMOOTH_SIGMA` | `5` frames | Gaussian smoothing σ applied to Y before fitting |
+| `Y_SMOOTH_SIGMA` | `3` frames | Gaussian smoothing σ applied to Y before fitting |
 | `MODEL_1_DIR` | `Model_1_results` | Subdirectory for saving model outputs |
 
 **Output files per session** (saved under `{BASE_DATA_PATH}/{mouse_ID}/{date}/`):
