@@ -1,4 +1,4 @@
-# GLM Encoding Model
+# GLM Encoding Model Pipeline
 
 A Poisson generalized linear model (GLM) pipeline for fitting neural encoding models to calcium imaging data from head-fixed mice navigating a virtual reality T-maze. The model decomposes single-neuron activity into contributions from nine behavioural predictor groups using raised-cosine basis functions and elastic-net / group-lasso regularisation.
 
