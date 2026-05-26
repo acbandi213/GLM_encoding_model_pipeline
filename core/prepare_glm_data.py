@@ -6,59 +6,34 @@ that are used for GLM encoding model analysis. It supports both unisensory (AVC)
 multisensory (VACANT) task types.
 
 Usage:
-    python prepare_glm_data.py --task avc --base-path /path/to/data
-    python prepare_glm_data.py --task priming --base-path /path/to/data
-    python prepare_glm_data.py --task vacant --base-path /path/to/data
-    python prepare_glm_data.py --task all --base-path /path/to/data
+    python core/prepare_glm_data.py --task avc --base-path /path/to/data
+    python core/prepare_glm_data.py --task priming --base-path /path/to/data
+    python core/prepare_glm_data.py --task vacant --base-path /path/to/data
+    python core/prepare_glm_data.py --task all --base-path /path/to/data
 """
 
 import argparse
 import gzip
+import os
 import pickle
+import sys
 from pathlib import Path
 from multiprocessing import Pool, cpu_count
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+# Add GLM_encoding_model to path for config imports (parent directory of core/)
+_SCRIPT_DIR = Path(__file__).parent.parent.resolve()
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
 
-# ============================================================================
-# Session Registries
-# ============================================================================
-
-# PPC_AVC = {
-#     'IS-2-1L': ['2025-03-10', '2025-03-11', '2025-03-12', '2025-03-13',
-#                 '2025-03-20', '2025-03-26', '2025-04-02', '2025-04-04',
-#                 '2025-04-08', '2025-04-09', '2025-05-05',
-#                 '2025-05-28', '2025-05-30', '2025-11-20'],
-#     'IS-3-1R': ['2024-12-23', '2024-12-24'],
-#     'JP-2-1L': ['2025-08-19', '2025-08-26', '2025-09-16', '2025-09-17',
-#                 '2025-09-19', '2025-09-22'],
-#     'KA-1-00': ['2025-12-16', '2026-01-08'],
-#     'KA-2-00': ['2026-01-08', '2026-01-13', '2026-01-14'],
-#     'KO-5-1L': ['2026-03-05', '2026-03-06', '2026-03-12', '2026-03-13', 
-#                 '2026-03-24', '2026-03-30', '2026-04-06', '2026-04-27'],
-#     'KO-6-00': ['2026-03-12', '2026-03-23', '2026-03-25', '2026-03-30', '2026-04-06'],
-# }
-
-PPC_AVC_PRIMING = {
-    'IS-2-1L': ['2025-04-14', '2025-04-15', '2025-04-22', '2025-12-12'],
-    'KO-5-1L': ['2026-04-01', '2026-04-02', '2026-04-08', '2026-04-28',
-                '2026-04-29', '2026-04-30'],
-    'KO-6-00': ['2026-04-02', '2026-04-07']
-}
-
-PPC_VACANT = {
-    'IS-2-1L': ['2025-04-14_1', '2025-04-15_1', '2025-04-22_1', '2025-12-12_1'],
-    'KO-5-1L': ['2026-04-01_1', '2026-04-02_1', '2026-04-08_1', '2026-04-28_1',
-                '2026-04-29_1', '2026-04-30_1'],
-    'KO-6-00': ['2026-04-02_1', '2026-04-07_1']
-}
-
-
-# ============================================================================
-# TrialDataHandler Class
-# ============================================================================
+# Import session registries from config files
+from config.session_registry import PPC_AVC
+from config.session_registry_multisensory import (
+    PPC_AVC_PRIMING,
+    PPC_VACANT,
+)
 
 class TrialDataHandler:
     """
@@ -77,7 +52,7 @@ class TrialDataHandler:
         'vis_psych': {1: 0, 2: 15, 3: 30, 4: 60, 5: 75, 6: 90, 7: 45},
         'vis_psych_hard': {1: 0, 2: 15, 3: 30, 4: 40, 5: 50, 6: 60, 7: 75, 8: 90, 9: 45},
         'cong_psych_hard': {1: 0, 2: 15, 3: 30, 4: 40, 5: 50, 6: 60, 7: 75, 8: 90, 9: 45},
-        '2loc': {1: 0, 2: 90, 3: 0, 4: 90, 5: 90, 6: 0},
+        'vacant': {1: 0, 2: 90, 3: 0, 4: 90, 5: 90, 6: 0},
         'avc': {1: 0, 2: 90, 3: 0, 4: 90, 5: np.nan, 6: np.nan},
         'aud': {1: np.nan, 2: np.nan},
         'MIT': {1: 0, 2: 1},
@@ -93,7 +68,7 @@ class TrialDataHandler:
         'vis_psych': {1: np.nan, 2: np.nan, 3: np.nan, 4: np.nan, 5: np.nan, 6: np.nan, 7: np.nan},
         'vis_psych_hard': {1: np.nan, 2: np.nan, 3: np.nan, 4: np.nan, 5: np.nan, 6: np.nan, 7: np.nan, 8: np.nan, 9: np.nan},
         'cong_psych_hard': {1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 1, 7: 1, 8: 1, 9: np.nan},
-        '2loc': {1: 0, 2: 1, 3: 1, 4: 0, 5: 0, 6: 1},
+        'vacant': {1: 0, 2: 1, 3: 1, 4: 0, 5: 0, 6: 1},
         'avc': {1: 0, 2: 1, 3: np.nan, 4: np.nan, 5: 0, 6: 1},
         'aud': {1: 0, 2: 1},
         'MIT': {1: np.nan, 2: np.nan},
@@ -109,7 +84,7 @@ class TrialDataHandler:
         'vis_psych': {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1},
         'vis_psych_hard': {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1},
         'cong_psych_hard': {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: np.nan},
-        '2loc': {1: 0, 2: 0, 3: 1, 4: 1, 5: 2, 6: 2},
+        'vacant': {1: 0, 2: 0, 3: 1, 4: 1, 5: 2, 6: 2},
         'avc': {1: 0, 2: 0, 3: 1, 4: 1, 5: 2, 6: 2},
         'aud': {1: 2, 2: 2},
         'MIT': {1: 0, 2: 0},
@@ -764,7 +739,7 @@ Examples:
         print()
         
         success, failed = run_parallel_sessions(
-            PPC_VACANT, base_path, tasktype='2loc', n_workers=n_workers
+            PPC_VACANT, base_path, tasktype='vacant', n_workers=n_workers
         )
         all_success.extend(success)
         all_failed.extend(failed)

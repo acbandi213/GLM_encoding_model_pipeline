@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-run_all_models.py
+run_unisensory_models.py
 =================
 Master runner for all 6 GLM model scripts.
 
@@ -46,31 +46,31 @@ Available models
 Usage
 -----
 # Run all 6 models, 2 parallel workers (default):
-python run_all_models.py
+python run_unisensory_models.py
 
 # Run with 3 parallel workers (watch GPU / RAM before going higher):
-python run_all_models.py --max-workers 3
+python run_unisensory_models.py --max-workers 3
 
 # Run sequentially (original behaviour):
-python run_all_models.py --max-workers 1
+python run_unisensory_models.py --max-workers 1
 
 # Run specific models:
-python run_all_models.py --models GLM_uni GLM_CG
+python run_unisensory_models.py --models GLM_uni GLM_CG
 
 # Skip all coupling variants:
-python run_all_models.py --no-coupling
+python run_unisensory_models.py --no-coupling
 
 # Model-first ordering instead:
-python run_all_models.py --model-first
+python run_unisensory_models.py --model-first
 
 # Force re-run with a different metric:
-python run_all_models.py --no-skip --metric dff
+python run_unisensory_models.py --no-skip --metric dff
 
 # Build missing glm_data_stacked.pkl files before running models:
-python run_all_models.py --build-stacked
+python run_unisensory_models.py --build-stacked
 
 # List available model names:
-python run_all_models.py --list
+python run_unisensory_models.py --list
 """
 
 import argparse
