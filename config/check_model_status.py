@@ -27,7 +27,7 @@ from config.session_registry_multisensory import (
     PPC_VACANT,
 )
 
-BASE_DATA_PATH = '/Volumes/Akhil Data/Akhil/ProcessedData'
+from core.paths import BASE_DATA_PATH
 
 # Model file patterns and their result directories
 # Each model saves to its own directory: {MODEL_NAME}_results/

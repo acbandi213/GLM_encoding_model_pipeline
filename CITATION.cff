@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below. A paper reference will be added when it is available."
+title: "GLM encoding model pipeline"
+type: software
+authors:
+  - family-names: Bandi
+    given-names: Akhil
+repository-code: "https://github.com/acbandi213/GLM_encoding_model_pipeline"
