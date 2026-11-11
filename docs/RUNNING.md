@@ -177,7 +177,7 @@ python runners/run_unisensory_models.py --models GLM_all_context_coupling GLM_un
 
 Every model script has built-in skip/resume logic — no special flags needed:
 
-| Situation | Behaviour |
+| Situation | Behavior |
 |---|---|
 | Full model + all lesions exist | Session skipped entirely |
 | Full model done, some lesion pkls missing | Loads saved full model, refits only the missing lesion groups |

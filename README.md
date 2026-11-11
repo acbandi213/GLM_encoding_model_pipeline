@@ -1,6 +1,6 @@
 # GLM Encoding Model Pipeline
 
-A Poisson generalized linear model (GLM) pipeline for fitting neural encoding models to calcium imaging data from head-fixed mice navigating a virtual reality T-maze, with a matching pipeline for Neuropixels recordings from monkey frontal eye field (FEF). The model decomposes single-neuron activity into contributions from behavioural predictor groups using raised-cosine basis functions and elastic-net / group-lasso regularization.
+A Poisson generalized linear model (GLM) pipeline for fitting neural encoding models to calcium imaging data from head-fixed mice navigating a virtual reality T-maze, with a matching pipeline for Neuropixels recordings from monkey frontal eye field (FEF). The model decomposes single-neuron activity into contributions from behavioral predictor groups using raised-cosine basis functions and elastic-net / group-lasso regularization.
 
 **Latest update**: single-task fitting (`GLM_single_task.py`), monkey FEF fitting (`NHP_FEF/FEF_v2/`), one configurable data path, a pinned `requirements.txt`, and a demo that runs without any data.
 
@@ -32,7 +32,7 @@ Each neuron's activity is modeled as:
 
 $$\hat{y} = \exp(X \mathbf{w} + w_0)$$
 
-where $X$ is a design matrix of behavioural predictors (position, context, stimulus identity, choice, velocity, turn onset, and outcome), and $\mathbf{w}$ is a sparse weight vector fit by cross-validated penalized maximum likelihood.
+where $X$ is a design matrix of behavioral predictors (position, context, stimulus identity, choice, velocity, turn onset, and outcome), and $\mathbf{w}$ is a sparse weight vector fit by cross-validated penalized maximum likelihood.
 
 The unique contribution of each predictor group is quantified via **lesion models**: the full model is refit with one group removed at a time, and the drop in fractional deviance explained ($\Delta \text{FDE}$) is recorded per neuron.
 
