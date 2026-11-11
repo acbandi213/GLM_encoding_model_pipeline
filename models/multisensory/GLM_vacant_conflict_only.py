@@ -40,10 +40,7 @@ except ImportError:
 # ── Path setup ────────────────────────────────────────────────────────────────
 _SCRIPT_DIR    = os.path.dirname(os.path.abspath(__file__))
 GLM_DIR        = os.path.dirname(os.path.dirname(_SCRIPT_DIR))
-ICLOUD_GLM_DIR = ('/Users/akhilbandi/Library/Mobile Documents/'
-                  'com~apple~CloudDocs/Documents/Portfolio/code_projects/'
-                  'Context Paper Code/GLM_encoding_model')
-for _p in (GLM_DIR, ICLOUD_GLM_DIR):
+for _p in (GLM_DIR,):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
