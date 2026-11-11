@@ -25,7 +25,7 @@
 
 ### Prepare Data
 ```bash
-python analysis/prepare_glm_data.py --task all
+python core/prepare_glm_data.py --task all
 ```
 
 ### Run Everything (Fastest)
@@ -57,7 +57,6 @@ python models/multisensory/GLM_vacant_all.py --metric deconv
 ### Check Results
 ```bash
 python analysis/check_model_runs.py
-python verify_migration.py
 ```
 
 ---
@@ -132,8 +131,8 @@ from config.session_registry_multisensory import PPC_AVC_PRIMING, PPC_VACANT, CR
 
 ## Troubleshooting
 
-**Import Error**: Run `python verify_migration.py`
+**Import Error**: Run scripts from the repository root
 
-**Missing Data**: Run `python analysis/prepare_glm_data.py --task all`
+**Missing Data**: Run `python core/prepare_glm_data.py --task all`
 
 **Check Logs**: `ls -lt logs/` then `tail -f logs/run_*.log`

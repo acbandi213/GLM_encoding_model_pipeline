@@ -89,10 +89,7 @@ _LOG_LOCK = threading.Lock()
 # Script is in runners/, need to go up 1 level to GLM_encoding_model root
 _RUNNER_DIR = os.path.dirname(os.path.abspath(__file__))
 GLM_DIR = os.path.dirname(_RUNNER_DIR)
-ICLOUD_GLM_DIR = ('/Users/akhilbandi/Library/Mobile Documents/'
-                  'com~apple~CloudDocs/Documents/Portfolio/code_projects/'
-                  'Context Paper Code/GLM_encoding_model')
-for _p in (GLM_DIR, ICLOUD_GLM_DIR):
+for _p in (GLM_DIR,):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
@@ -114,6 +111,17 @@ ALL_MODELS = [
     dict(name='GLM_CG',                   module='GLM_CG',                   script='models/unisensory/GLM_CG.py',                   coupling=False, contexts=[0]),
     dict(name='GLM_CG_coupling',          module='GLM_CG_coupling',          script='models/unisensory/GLM_CG_coupling.py',          coupling=True,  contexts=[0]),
 ]
+
+# Single-task models (one file, GLM_single_task.py, selected with --task).
+# They are OPT-IN: they run only when named with --models, never by default.
+for _task, _ctx in (('visual', 1), ('audio', 2)):
+    for _cpl in (False, True):
+        ALL_MODELS.append(dict(
+            name=f'GLM_{_task}' + ('_coupling' if _cpl else ''),
+            module='GLM_single_task',
+            script='models/unisensory/GLM_single_task.py',
+            coupling=_cpl, contexts=[_ctx], opt_in=True,
+            model_args=['--task', _task] + (['--coupling'] if _cpl else [])))
 _NAME_TO_MODEL = {m['name']: m for m in ALL_MODELS}
 
 _HELPER = os.path.join(GLM_DIR, 'runners', '_run_single_session.py')
@@ -247,7 +255,7 @@ def run_single_session(model, mouse_ID, date, extra_args, master_log_path):
     """Session-first: one subprocess per (session, model) pair."""
     label = f'{model["name"]}  |  {mouse_ID} / {date}'
     cmd   = [sys.executable, _HELPER,
-             model['module'], mouse_ID, date] + extra_args
+             model['module'], mouse_ID, date] + extra_args + model.get('model_args', [])
     return _run_subprocess(cmd, label, master_log_path)
 
 
@@ -256,7 +264,7 @@ def run_full_model(model, extra_args, master_log_path):
     label = (f'{model["name"]}  |  contexts={model["contexts"]}  '
              f'coupling={model["coupling"]}')
     cmd   = [sys.executable,
-             os.path.join(GLM_DIR, model['script'])] + extra_args
+             os.path.join(GLM_DIR, model['script'])] + extra_args + model.get('model_args', [])
     return _run_subprocess(cmd, label, master_log_path)
 
 
@@ -338,7 +346,7 @@ def main():
             sys.exit(1)
         selected = [m for m in ALL_MODELS if m['name'] in args.models]
     else:
-        selected = list(ALL_MODELS)
+        selected = [m for m in ALL_MODELS if not m.get('opt_in')]
 
     if args.no_coupling:
         selected = [m for m in selected if not m['coupling']]

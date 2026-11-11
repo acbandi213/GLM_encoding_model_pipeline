@@ -26,10 +26,10 @@ import sys
 # Script is in runners/, need to go up 1 level to GLM_encoding_model root
 _RUNNER_DIR    = os.path.dirname(os.path.abspath(__file__))
 GLM_DIR        = os.path.dirname(_RUNNER_DIR)
-ICLOUD_GLM_DIR = ('/Users/akhilbandi/Library/Mobile Documents/'
-                  'com~apple~CloudDocs/Documents/Portfolio/code_projects/'
-                  'Context Paper Code/GLM_encoding_model')
-for _p in (GLM_DIR, ICLOUD_GLM_DIR):
+# Model scripts live in models/<family>/ and are imported by bare module name.
+for _p in (GLM_DIR,
+           os.path.join(GLM_DIR, 'models', 'unisensory'),
+           os.path.join(GLM_DIR, 'models', 'multisensory')):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
@@ -45,9 +45,15 @@ parser.add_argument('--no-skip', action='store_true',
                     help='Force re-run (ignore existing results)')
 parser.add_argument('--metric', type=str, default='deconv',
                     help='Neural metric: deconv | dff | z_dff')
+parser.add_argument('--task', type=str, default=None,
+                    help='GLM_single_task only: visual | audio | cg')
+parser.add_argument('--coupling', action='store_true',
+                    help='GLM_single_task only: add coupling predictors')
 args = parser.parse_args()
 
 module = importlib.import_module(args.module_name)
+if args.task is not None:
+    module.configure(args.task, args.coupling)
 
 module.run_all_sessions(
     {args.mouse_ID: [args.date]},

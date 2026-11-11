@@ -52,13 +52,13 @@ Use `prepare_glm_data.py` to create `glm_data_dict.pkl.gz` files:
 
 ```bash
 # Process priming sessions (AVC tasktype)
-python prepare_glm_data.py --task priming --base-path /Volumes/Data/ProcessedData
+python core/prepare_glm_data.py --task priming --base-path /path/to/ProcessedData
 
 # Process VACANT sessions (2loc tasktype)
-python prepare_glm_data.py --task vacant --base-path /Volumes/Data/ProcessedData
+python core/prepare_glm_data.py --task vacant --base-path /path/to/ProcessedData
 
 # Process all
-python prepare_glm_data.py --task all --base-path /Volumes/Data/ProcessedData
+python core/prepare_glm_data.py --task all --base-path /path/to/ProcessedData
 ```
 
 **Output files** (per session):
@@ -330,7 +330,7 @@ This is the **intended behavior** - the GLM should see both stimuli to capture c
 
 1. **Data Preparation**:
    ```bash
-   python prepare_glm_data.py --task all --base-path /Volumes/Data/ProcessedData
+   python core/prepare_glm_data.py --task all --base-path /path/to/ProcessedData
    ```
 
 2. **Priming Analysis** (baseline unisensory performance):
@@ -401,7 +401,7 @@ import os
 # Check cross-task results
 mouse_ID = 'KO-5-1L'
 test_date = '2026-04-08_1'
-results_dir = f'/Volumes/Data/ProcessedData/{mouse_ID}/{test_date}/GLM_cross_task_results/'
+results_dir = f'/path/to/ProcessedData/{mouse_ID}/{test_date}/GLM_cross_task_results/'
 
 # Load full model
 with open(os.path.join(results_dir, 'glm_cross_task_full.pkl'), 'rb') as f:
@@ -445,4 +445,4 @@ After running the analyses:
 
 ---
 
-For questions or issues, refer to the main `run_all_models.py` documentation or contact the analysis lead.
+For questions or issues, refer to the main README or contact the analysis lead.

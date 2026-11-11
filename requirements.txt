@@ -1,0 +1,11 @@
+# Versions the pipeline was developed and run with (Python 3.11).
+# Newer releases will probably work; TensorFlow >= 2.16 is the one hard floor.
+tensorflow==2.17.1
+numpy==1.24.3
+scipy==1.11.1
+pandas==2.0.3
+scikit-learn==1.3.0
+matplotlib==3.7.2
+tqdm
+h5py>=3.10        # monkey FEF pipeline only (reads the .mat session files)
+pytest            # tests only

@@ -32,13 +32,13 @@ conda activate Bandi_Runyan_24
 ### 2. Navigate to the code directory
 
 ```bash
-cd "/Users/akhilbandi/Library/Mobile Documents/com~apple~CloudDocs/Documents/Portfolio/code_projects/Context Paper Code/GLM_encoding_model"
+cd /path/to/GLM_encoding_model_pipeline
 ```
 
 **Optional — add a shortcut alias** (run once, then available in every new terminal):
 
 ```bash
-echo 'alias cdglm="cd \"/Users/akhilbandi/Library/Mobile Documents/com~apple~CloudDocs/Documents/Portfolio/code_projects/Context Paper Code/GLM_encoding_model\""' >> ~/.zshrc
+echo 'alias cdglm="cd /path/to/GLM_encoding_model_pipeline"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
@@ -74,7 +74,7 @@ everywhere.
 
 ## Running the Models
 
-### `run_all_models.py` — recommended entry point
+### `runners/run_unisensory_models.py` — recommended entry point
 
 All commands below assume you are already in the `GLM_encoding_model` directory
 with `Bandi_Runyan_24` activated.
@@ -82,7 +82,7 @@ with `Bandi_Runyan_24` activated.
 #### Run all 6 models (session-first, best for memory)
 
 ```bash
-python run_all_models.py
+python runners/run_unisensory_models.py
 ```
 
 The default **session-first** mode completes all 6 models for session 1, fully
@@ -92,46 +92,46 @@ separate subprocess so the OS reclaims all RAM between combinations.
 #### List available model names
 
 ```bash
-python run_all_models.py --list
+python runners/run_unisensory_models.py --list
 ```
 
 #### Run specific models only
 
 ```bash
-python run_all_models.py --models GLM_uni GLM_CG
-python run_all_models.py --models GLM_all_context GLM_uni GLM_CG
+python runners/run_unisensory_models.py --models GLM_uni GLM_CG
+python runners/run_unisensory_models.py --models GLM_all_context GLM_uni GLM_CG
 ```
 
 #### Skip all coupling variants (3 base models only — much faster)
 
 ```bash
-python run_all_models.py --no-coupling
+python runners/run_unisensory_models.py --no-coupling
 ```
 
 #### Force re-run (ignore existing results)
 
 ```bash
-python run_all_models.py --no-skip
+python runners/run_unisensory_models.py --no-skip
 ```
 
 #### Use a different neural metric
 
 ```bash
-python run_all_models.py --metric dff
-python run_all_models.py --metric z_dff
+python runners/run_unisensory_models.py --metric dff
+python runners/run_unisensory_models.py --metric z_dff
 ```
 
 #### Model-first ordering (one model across all sessions before the next)
 
 ```bash
-python run_all_models.py --model-first
+python runners/run_unisensory_models.py --model-first
 ```
 
 #### Combine flags
 
 ```bash
-python run_all_models.py --no-coupling --no-skip --metric dff
-python run_all_models.py --models GLM_uni GLM_CG --no-skip
+python runners/run_unisensory_models.py --no-coupling --no-skip --metric dff
+python runners/run_unisensory_models.py --models GLM_uni GLM_CG --no-skip
 ```
 
 ---
@@ -151,7 +151,7 @@ PPC_AVC = {
 Run only the fast base models first:
 
 ```bash
-python run_all_models.py --no-coupling
+python runners/run_unisensory_models.py --no-coupling
 ```
 
 Once results look sensible, restore the full session list (or use `git stash`
@@ -163,12 +163,12 @@ if you staged the change).
 
 ```bash
 # 1. Run and validate the 3 base models
-python run_all_models.py --no-coupling
+python runners/run_unisensory_models.py --no-coupling
 
 # 2. Inspect results in notebooks, check frac_dev and R² look reasonable
 
 # 3. Add the 3 coupling models
-python run_all_models.py --models GLM_all_context_coupling GLM_uni_coupling GLM_CG_coupling
+python runners/run_unisensory_models.py --models GLM_all_context_coupling GLM_uni_coupling GLM_CG_coupling
 ```
 
 ---
@@ -186,13 +186,13 @@ Every model script has built-in skip/resume logic — no special flags needed:
 Simply re-run the same command after a crash:
 
 ```bash
-python run_all_models.py        # picks up exactly where it left off
+python runners/run_unisensory_models.py        # picks up exactly where it left off
 ```
 
 To force a full re-run of everything regardless:
 
 ```bash
-python run_all_models.py --no-skip
+python runners/run_unisensory_models.py --no-skip
 ```
 
 ---
@@ -227,7 +227,7 @@ Each run writes a timestamped log to the `logs/` subdirectory:
 To watch a run live in a second terminal tab:
 
 ```bash
-tail -f "/Users/akhilbandi/Library/Mobile Documents/com~apple~CloudDocs/Documents/Portfolio/code_projects/Context Paper Code/GLM_encoding_model/logs/run_all_models_"*.log
+tail -f logs/run_all_models_*.log
 ```
 
 ---
@@ -237,7 +237,7 @@ tail -f "/Users/akhilbandi/Library/Mobile Documents/com~apple~CloudDocs/Document
 | File | Purpose |
 |---|---|
 | `session_registry.py` | **Edit this** to add/remove sessions |
-| `run_all_models.py` | Master runner for all 6 models |
+| `runners/run_unisensory_models.py` | Master runner for the unisensory and single-task models |
 | `_run_single_session.py` | Internal helper (do not call directly) |
 | `GLM_all_context.py` | Runner: all contexts, no coupling |
 | `GLM_all_context_coupling.py` | Runner: all contexts + coupling |

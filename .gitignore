@@ -1,5 +1,7 @@
 # Archived old files (reorganization backup)
 old/
+# ...except the archived working notebooks (only the ones already tracked are committed; the rest stay local)
+!analysis/notebooks/old/
 
 # Python cache
 __pycache__/
@@ -55,3 +57,6 @@ logs/*.log
 env/
 venv/
 ENV/
+
+# supplementary behaviour prototype: local per-trial caches
+analysis/behavior_supp/cache/
